@@ -1,17 +1,10 @@
 
 
-
 const bitApp = {};
 
 Date.prototype.getUnixTime = function () { return this.getTime() / 1000 | 0 };
     if (!Date.now) Date.now = function () { return new Date(); }
     Date.time = function () { return Date.now().getUnixTime(); }
-
-// user input date needs to be passed into below
-bitApp.someDate = new Date('25 Dec 1995');
-    var theUnixTime = bitApp.someDate.getUnixTime();
-    console.log(theUnixTime);
-
 
 bitApp.getWorth = (epochDate) => {
     return $.ajax({
@@ -21,15 +14,45 @@ bitApp.getWorth = (epochDate) => {
     });
 };
 
-bitApp.getData = async function () {
-    const answer = await bitApp.getWorth(1452680400);
-    console.log(answer);
-};
+bitApp.events = function() {
+    $('form').on('submit', function (e) {
+        e.preventDefault();
+        const buyValue = $('#userStartDate').val();
+        buyDate = new Date(buyValue).getUnixTime();
+        console.log(buyDate);
+        bitApp.getWorth(buyDate);
+    });
+}
 
 bitApp.init = function() {
-    bitApp.getData();
+    bitApp.events();
 };
 
 $(function () {
     bitApp.init();
 });
+
+
+bitApp.getWorth = (buyDate) => {
+    let url = `https://min-api.cryptocompare.com/data/pricehistorical?fsym=BTC&tsyms=USD,EUR&ts=${buyDate}`
+    console.log(url);
+    $.ajax({
+        url: url,
+        method: 'GET',
+        dataType: 'json'
+    }).then (function(res){
+        console.log(res);
+
+        let dollars1 = res.BTC.USD;
+        console.log(dollars1);
+
+        playingWithMoney(dollars1);
+    });
+};
+console.log(bitApp.getWorth(buyDate));
+
+const playingWithMoney = (dollars1, dollars2) => {
+    const finalValue = dollars1 - dollars2;
+    console.log(finalValue);
+};
+
