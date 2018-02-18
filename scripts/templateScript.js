@@ -48,6 +48,7 @@ bitApp.buyBTC = (date) => {
         console.log(res.BTC); 
         // console.log(bitApp.buyBTCValue);
     });
+    //?
 };
 
 bitApp.events = function () {
