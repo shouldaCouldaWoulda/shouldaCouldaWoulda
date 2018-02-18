@@ -9,26 +9,51 @@ if (!Date.now) Date.now = function () { return new Date(); }
 
 Date.time = function () { return Date.now().getUnixTime(); }
 
-bitApp.epochGraph = function () {
-    console.log(bitApp.startEpoch)
-    console.log(bitApp.endEpoch)
-    bitApp.epochGraphIncrement = (bitApp.endEpoch / bitApp.startEpoch);
+bitApp.epochGraph = function (end, start) {
+    return Math.floor((end - start) / 11);
+};
+
+const dates = [];
+
+bitApp.BTCLoop = function() { for (let i = bitApp.startEpoch; i <= bitApp.endEpoch; i=i+epochGraphIncrement) {
+    dates.push(bitApp.buyBTC(i));
+}
+}
+
+bitApp.buyBTC = (date) => {
+    let url = `https://min-api.cryptocompare.com/data/pricehistorical?fsym=BTC&tsyms=USD,EUR&ts=${date}`
+    $.ajax({
+        url: url,
+        method: 'GET',
+        dataType: 'json'
+    }).then(function (res) {
+        console.log(res);
+        bitApp.buyBTCValue = res.BTC.USD;
+        console.log(bitApp.buyBTCValue);
+    });
 };
 
 bitApp.events = function () {
-    $('form').on('submit', function (e) {
+    $('form').on('submit', async function (e) {
         e.preventDefault();
 
         const buyDateValue = $('#userBuyDate').val();
         buyDateEpochValue = new Date(buyDateValue).getUnixTime();
 
-        bitApp.startEpoch = buyDateEpochValue;
+        bitApp.startEpoch = await buyDateEpochValue;
 
         const sellDateValue = $('#userSellDate').val();
 
         sellDateEpochValue = new Date(sellDateValue).getUnixTime();
 
-        bitApp.endEpoch = sellDateEpochValue;
+        bitApp.endEpoch = await sellDateEpochValue;
+
+        bitApp.epochGraphIncrement = await bitApp.epochGraph (sellDateEpochValue, buyDateEpochValue);
+        console.log(bitApp.epochGraphIncrement);
+
+        bitApp.BTCLoop();
+
+        
 
         // bitApp.buyAmount = $('#userBuyAmount').val();
     });
@@ -37,6 +62,7 @@ bitApp.events = function () {
 bitApp.init = function () {
     bitApp.events();
     bitApp.epochGraph();
+    bitApp.buyBTC();
 };
 
 $(function () {
