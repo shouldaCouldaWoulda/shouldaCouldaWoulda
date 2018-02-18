@@ -19,11 +19,23 @@
     <title>Document</title>
 </head>
 <body>
-    <!-- <form action="">
-        <input type="text" id="startDate" data-format="YYYY-MM-DD" data-template="YYYY MM DD" name="date" value="09-01-2013">
-        <input type="submit">
-    </form> -->
-    
+
+    <canvas id="canvas"></canvas>
+
+<!-- dynamically add this to html with javascript? More semantic? -->
+
+    <div class="rotating-item-wrapper">
+        <img class="rotating-item" src="assets/Untitled-1.png"/>
+        <img class="rotating-item" src="assets/Untitled-2.png"/>
+        <img class="rotating-item" src="assets/Untitled-3.png"/>
+        <img class="rotating-item" src="assets/Untitled-4.png"/>
+        <img class="rotating-item" src="assets/Untitled-5.png"/>
+        <img class="rotating-item" src="assets/Untitled-6.png"/>
+        <img class="rotating-item" src="assets/Untitled-7.png" />
+        <img class="rotating-item" src="assets/Untitled-8.png" />
+        <img class="rotating-item" src="assets/Untitled-9.png" />
+    </div>
+
     <form action="">
         <input id="userBuyDate" type="date">
         <input id="userSellDate" type="date">
@@ -31,25 +43,10 @@
         <input type="submit">
     </form>
 
-    <div class="startPrice">
-        <h1></h1>
-    </div>
-
-
-   
-
-    
-<!-- date input html -->
-
-
-
-
-
-
-
+    <div class="startPrice"></div>
 
     <script src='https://code.jquery.com/jquery-3.2.1.min.js' integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4='
         crossorigin='anonymous'></script>
-    <script src="scripts/templateScript.js"></script>
+    <script src="scripts/script.js"></script>
 </body>
 </html>
