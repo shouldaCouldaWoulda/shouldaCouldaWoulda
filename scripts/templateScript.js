@@ -1,4 +1,5 @@
-let bitApp = {};
+// let bitApp = {};
+
 
 bitApp.startEpoch = 0;
 bitApp.endEpoch = 0;
@@ -6,10 +7,11 @@ bitApp.epochGraphIncrement = 0;
 bitApp.BTCBuyPrice = 0;
 bitApp.BTCSellPrice = 0;
 
-Date.prototype.getUnixTime = function () { return this.getTime() / 1000 | 0 };
-if (!Date.now) Date.now = function () { return new Date(); }
 
-Date.time = function () { return Date.now().getUnixTime(); }
+// Date.prototype.getUnixTime = function () { return this.getTime() / 1000 | 0 };
+// if (!Date.now) Date.now = function () { return new Date(); }
+
+// Date.time = function () { return Date.now().getUnixTime(); }
 
 bitApp.epochGraph = function (end, start) {
     // return Math.floor((end - start) / 10);
@@ -55,14 +57,15 @@ bitApp.events = function () {
     $('form').on('submit', async function (e) {
         e.preventDefault();
 
-        const buyDateValue = $('#userBuyDate').val();
-        buyDateEpochValue = new Date(buyDateValue).getUnixTime();
+//         const buyDateValue = $('#userBuyDate').val();
+//         buyDateEpochValue = new Date(buyDateValue).getUnixTime();
 
         bitApp.startEpoch = await buyDateEpochValue;
 
-        const sellDateValue = $('#userSellDate').val();
 
-        sellDateEpochValue = new Date(sellDateValue).getUnixTime();
+//         const sellDateValue = $('#userSellDate').val();
+
+//         sellDateEpochValue = new Date(sellDateValue).getUnixTime();
 
         bitApp.endEpoch = await sellDateEpochValue;
 
@@ -79,12 +82,11 @@ bitApp.events = function () {
         console.log('sellprice is' + bitApp.BTCSellPrice);
 
         // bitApp.epochDatesLoop();
+       
 
-        
-
-        // bitApp.buyAmount = $('#userBuyAmount').val();
-    });
-};
+//         // bitApp.buyAmount = $('#userBuyAmount').val();
+//     });
+// };
 
 bitApp.init = function () {
     bitApp.events();
@@ -92,6 +94,6 @@ bitApp.init = function () {
     bitApp.buyBTC();
 };
 
-$(function () {
-    bitApp.init();
-});
+// $(function () {
+//     bitApp.init();
+// });
