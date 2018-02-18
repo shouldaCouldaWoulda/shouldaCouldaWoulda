@@ -25,7 +25,7 @@ bitApp.EpochArray = function () {
 const BTCPricesHistory = [];
 bitApp.BTCLoop = function () {
     for (let i = 0; i < epochDates.length; i++) {
-        BTCPricesHistory.push(bitApp.buyBTC(epochDates[i]));
+        bitApp.buyBTC(epochDates[i]);
         console.log(BTCPricesHistory);
     }
 }
@@ -37,8 +37,9 @@ bitApp.buyBTC = (date) => {
         method: 'GET',
         dataType: 'json'
     }).then(function (res) {
-        // console.log(res);
-        console.log(res.BTC);
+        res.BTC.date = date;
+        BTCPricesHistory.push(res)
+        console.log(BTCPricesHistory);
         // console.log(bitApp.buyBTCValue);
     });
     //???
@@ -67,7 +68,7 @@ bitApp.events = function () {
 bitApp.init = function () {
     bitApp.events();
     bitApp.epochGraph();
-    bitApp.buyBTC();
+    // bitApp.buyBTC();
 };
 $(function () {
     bitApp.init();
