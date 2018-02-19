@@ -1,165 +1,264 @@
-
-
 let bitApp = {};
 
-bitApp.sellBTCValue = 0;
-bitApp.buyBTCValue = 0;
-bitApp.buyAmount = 0;
-bitApp.BTCAmountBought = 0;
-bitApp.startEpoch = 0;
-bitApp.endEpoch = 0;
-bitApp.epochGraphIncrement = 0;
-
-bitApp.epochGraph = function() {
-    bitApp.epochGraphIncrement = bitApp.endEpoch - bitApp.startEpoch;  
-    console.log('this is finding graph points')
-};
-
-bitApp.purchasedBTC = function () {
-    bitApp.BTCAmountBought = bitApp.buyAmount / bitApp.buyBTCValue;
-    console.log('this is finding btc purchase')
-};
-
-Date.prototype.getUnixTime = function () { return this.getTime() / 1000 | 0 };
-    if (!Date.now) Date.now = function () { return new Date(); }
-    Date.time = function () { return Date.now().getUnixTime(); }
-
-bitApp.events = function() {
-    $('form').on('submit', function (e) {
-        e.preventDefault();
-
-        const buyDateValue = $('#userBuyDate').val();
-        buyDateEpochValue = new Date(buyDateValue).getUnixTime();
-
-        bitApp.startEpoch = buyDateEpochValue;
-
-        bitApp.buyBTC(buyDateEpochValue); 
-
-        const sellDateValue = $('#userSellDate').val();
-        sellDateEpochValue = new Date(sellDateValue).getUnixTime();
-
-        bitApp.endEpoch = sellDateEpochValue;
-
-        bitApp.sellBTC(sellDateEpochValue);
-
-        bitApp.buyAmount = $('#userBuyAmount').val();
-    });   
-};
-
-bitApp.buyBTC = (date) => {
-    let url = `https://min-api.cryptocompare.com/data/pricehistorical?fsym=BTC&tsyms=USD,EUR&ts=${date}`
-    $.ajax({
-        url: url,
-        method: 'GET',
-        dataType: 'json'
-    }).then(function (res) {
-        console.log(res);
-        bitApp.buyBTCValue = res.BTC.USD;
-    });
-};
-
-bitApp.sellBTC = (date) => {
-    let url = `https://min-api.cryptocompare.com/data/pricehistorical?fsym=BTC&tsyms=USD,EUR&ts=${date}`
-    $.ajax({
-        url: url,
-        method: 'GET',
-        dataType: 'json'
-    }).then(function (res) {
-        console.log(res);
-        bitApp.sellBTCValue = res.BTC.USD;
-    });
-};
-
 // MATRIX BACKGROUND BEGINS
-bitApp.canvas = document.getElementById("canvas");
-bitApp.ctx = bitApp.canvas.getContext("2d");
-
-//making the canvas full screen
-bitApp.canvas.height = window.innerHeight;
-bitApp.canvas.width = window.innerWidth;
-
-//chinese characters - taken from the unicode charset
-bitApp.numbers = "1234567890";
-//converting the string into an array of single characters
-bitApp.numbers = bitApp.numbers.split("");
-
-bitApp.font_size = 20;
-bitApp.columns = bitApp.canvas.width / bitApp.font_size; //number of columns for the rain
-//an array of drops - one per column
-bitApp.drops = [];
-//x below is the x coordinate
-//1 = y co-ordinate of the drop(same for every drop initially)
-for (let x = 0; x < bitApp.columns; x++)
-    bitApp.drops[x] = 1;
-
-// drawing the characters
-bitApp.draw = function () {
-    //Black BG for the canvas
-    //translucent BG to show trail
-    bitApp.ctx.fillStyle = "rgba(220,220,220,.05)";
-    bitApp.ctx.fillRect(0, 0, bitApp.canvas.width, bitApp.canvas.height);
-
-    bitApp.ctx.fillStyle = "rgba(255, 255, 255, 1)"; //green text
-    bitApp.ctx.font = bitApp.font_size + "px arial";
-    //looping over drops
-    for (let i = 0; i < bitApp.drops.length; i++) {
-        //a random chinese character to print
-        bitApp.text = bitApp.numbers[Math.floor(Math.random() * bitApp.numbers.length)];
-        //x = i*font_size, y = value of drops[i]*font_size
-        bitApp.ctx.fillText(bitApp.text, i * bitApp.font_size, bitApp.drops[i] * bitApp.font_size);
-
-        //sending the drop back to the top randomly after it has crossed the screen
-        //adding a randomness to the reset to make the drops scattered on the Y axis
-        if (bitApp.drops[i] * bitApp.font_size > bitApp.canvas.height && Math.random() > 0.975)
-            bitApp.drops[i] = 0;
-
-        //incrementing Y coordinate
-        bitApp.drops[i]++;
+bitApp.buildMatrix = function(){
+    canvas = document.getElementById("matrix");
+    matrix = canvas.getContext("2d");
+    //making the canvas full screen
+    canvas.height = 1.5*window.innerHeight;
+    canvas.width = window.innerWidth;
+    numbers = "1234567890";
+    //converting the string into an array of single characters
+    numbers = numbers.split("");
+    font_size = 20;
+    columns = canvas.width / font_size; //number of columns for the rain
+    //an array of drops - one per column
+    drops = [];
+    //x below is the x coordinate
+    //1 = y co-ordinate of the drop(same for every drop initially)
+    for (let x = 0; x < columns; x++)
+        drops[x] = 1;
+    // drawing the characters
+    bitApp.draw = function () {
+        //grey BG for the canvas
+        //translucent BG to show trail
+        matrix.fillStyle = "rgba(220,220,220,.05)";
+        matrix.fillRect(0, 0, canvas.width, canvas.height);
+        matrix.fillStyle = "rgba(255, 255, 255, 1)"; //white text
+        matrix.font = font_size + "px arial";
+        //looping over drops
+        for (let i = 0; i < drops.length; i++) {
+            //a random chinese character to print
+            text = numbers[Math.floor(Math.random() * numbers.length)];
+            //x = i*font_size, y = value of drops[i]*font_size
+            matrix.fillText(text, i * font_size, drops[i] * font_size);
+            //sending the drop back to the top randomly after it has crossed the screen
+            //adding a randomness to the reset to make the drops scattered on the Y axis
+            if (drops[i] * font_size > canvas.height && Math.random() > 0.975)
+                drops[i] = 0;
+            //incrementing Y coordinate
+            drops[i]++;
+        }
     }
-}
-setInterval(bitApp.draw, 33);
+    setInterval(bitApp.draw, 33);
+};
 // MATRIX BACKGROUND ENDS
 
 
+// COIN ANIMATION BEGINS
 bitApp.coinRotation = function () {
     //initial fade-in time (in milliseconds)
     let initialFadeIn = 0;
-
     //interval between items (in milliseconds)
     let itemInterval = 100;
-
     //cross-fade time (in milliseconds)
     let fadeTime = 0;
-
     //count number of items
     let numberOfItems = $('.rotating-item').length;
-
     //set current item
     let currentItem = 0;
-
     //show first item
     $('.rotating-item').eq(currentItem).fadeIn(initialFadeIn);
-
     //loop through the items
     let infiniteLoop = setInterval(function () {
         $('.rotating-item').eq(currentItem).fadeOut(fadeTime);
-
         if (currentItem == numberOfItems - 1) {
             currentItem = 0;
         } else {
             currentItem++;
         }
         $('.rotating-item').eq(currentItem).fadeIn(fadeTime);
-
     }, itemInterval);
 }
+// COIN ANIMATION ENDS
+
+
+// SETTING THE DATE INPUT MAX TO CURRENT DAY, AND SELL DATE TO AFTER BUY DATE BEGINS
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth() + 1; //January is 0!
+var yyyy = today.getFullYear();
+if (dd < 10) {
+    dd = '0' + dd
+}
+if (mm < 10) {
+    mm = '0' + mm
+}
+today = yyyy + '-' + mm + '-' + dd;
+document.getElementById("userBuyDate").setAttribute("max", today);
+var userBuyDate = document.getElementById("userBuyDate[]");
+console.log(userBuyDate[]);
+document.getElementById("userSellDate").setAttribute("min", userBuyDate)
+// SETTING THE DATE INPUT MAX TO CURRENT DAY, AND SELL DATE TO AFTER BUY DATE ENDS
+
+
+// DATE TO UNIX TIME BEGINS
+Date.prototype.getUnixTime = function () { return this.getTime() / 1000 | 0 };
+if (!Date.now) Date.now = function () { return new Date(); }
+Date.time = function () { return Date.now().getUnixTime(); }
+// DATE TO UNIX TIME ENDS
+
+
+// GETTING POINTS TO GRAPH BEGINS
+bitApp.startEpoch = 0;
+bitApp.endEpoch = 0;
+bitApp.epochGraphIncrement = 0;
+bitApp.BTCBuyPrice = 0;
+bitApp.BTCSellPrice = 0;
+bitApp.epochGraph = function (end, start) {
+    return (end - start) / 10;
+};
+
+// getting the starting and ending epoch dates
+bitApp.events = function () {
+    $('form').on('submit', async function (e) {
+        e.preventDefault();
+        bitApp.buyDateValue = $('#userBuyDate').val();
+        buyDateEpochValue = new Date(bitApp.buyDateValue).getUnixTime();
+        bitApp.startEpoch = await buyDateEpochValue;
+        bitApp.sellDateValue = $('#userSellDate').val();
+        sellDateEpochValue = new Date(bitApp.sellDateValue).getUnixTime();
+        bitApp.endEpoch = await sellDateEpochValue;
+        bitApp.epochGraphIncrement = await bitApp.epochGraph(sellDateEpochValue, buyDateEpochValue);
+        await bitApp.EpochArray(buyDateEpochValue, sellDateEpochValue);
+        bitApp.BTCLoop();
+    });
+
+};
+let numberofEpochPoints = [1, 2, 3, 4, 5, 6, 7, 8]
+const epochDates = [];
+bitApp.EpochArray = function (buyDateEpochValue, sellDateEpochValue) {
+    for (let i = 0; i < numberofEpochPoints.length; i++) {
+        epochDates.push(bitApp.startEpoch + (bitApp.epochGraphIncrement * numberofEpochPoints[i]));
+    }
+    epochDates.push(sellDateEpochValue);
+    epochDates.unshift(buyDateEpochValue);
+}
+const BTCPricesHistory = [];
+bitApp.BTCLoop = function () {
+    for (let i = 0; i < epochDates.length; i++) {
+        bitApp.buyBTC(epochDates[i], epochDates.length);
+    }
+}
+bitApp.buyBTC = (date, originalArray) => {
+    let url = `https://min-api.cryptocompare.com/data/pricehistorical?fsym=BTC&tsyms=USD,EUR&ts=${date}`
+    $.ajax({
+        url: url,
+        method: 'GET',
+        dataType: 'json'
+    }).then(function (res) {
+        bitApp.buyAmount = $('#userBuyAmount').val();
+        res.BTC.date = date;
+        BTCPricesHistory.push(res)
+        if (originalArray === BTCPricesHistory.length){
+           bitApp.startDateData = BTCPricesHistory.filter(BTCPrice => BTCPrice.BTC.date === bitApp.startEpoch)[0];
+           bitApp.getStartNumBitCoins();
+        }
+    });
+};
+bitApp.getStartNumBitCoins = function() {
+    bitApp.startNumBitcoins = bitApp.buyAmount / bitApp.startDateData.BTC.USD;
+    bitApp.getValueThroughTime();
+}
+bitApp.getValueThroughTime = function() {
+    bitApp.valueThroughTime = BTCPricesHistory.map(x => {
+        x.totalValue = x.BTC.USD * bitApp.startNumBitcoins;
+        return x;
+    });
+    bitApp.getChartData();
+}
+bitApp.getChartData = function() {
+    bitApp.chartData = bitApp.valueThroughTime.map(item => {
+        let object = {};
+        object.x = new Date(item.BTC.date * 1000);
+        object.y = item.totalValue;
+        return object;
+    });
+    bitApp.chartData.sort(function (a, b) {
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return new Date(a.x) - new Date(b.x);
+    });
+    bitApp.finalPortfolioWorth = Math.floor(bitApp.chartData[9].y)
+
+    // When we map it returns array in the same order
+    bitApp.chartLabels = bitApp.chartData.map(item => {
+        return item.x;
+    });
+    bitApp.renderChart();
+    bitApp.appendResults();
+}
+// GETTING POINTS TO GRAPH ENDS
+
+
+// MAKING POPUP TO DISPLAY RESULTS BEGINS
+$('.form').on('submit', function (event) {
+    event.preventDefault();
+    $('.hidden').toggleClass('hidden');
+});
+// MAKING POPUP ENDS
+
+
+// APPENDING FINAL PORTFOLIO VALUE TO THE PAGE
+bitApp.appendResults = function() {
+    $("#results").append(`<p>${bitApp.buyAmount}$ (USD) invested on ${bitApp.buyDateValue} would have been worth ${bitApp.finalPortfolioWorth} on ${bitApp.sellDateValue}`);
+}
+// APPENDING FIMAL PORTFOLIO VALUE TO THE PAGE
+
+
+// RENDERING CHART BEGINS
+bitApp.renderChart = function () {
+    bitApp.chartCanvas = $("#chart");
+    bitApp.myLineChart = new Chart(bitApp.chartCanvas, {
+        type: 'line',
+        data: {
+            labels: bitApp.chartLabels,
+            datasets: [{
+                label: 'value of portfolio (USD)',
+                data: bitApp.chartData,
+                backgroundColor: "rgb(255, 196, 20, 0.4)"
+            }]
+        },
+        options: {
+            // responsive: false,
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    time: {
+                        displayFormats: {
+                            'millisecond': 'MMM DD, YYYY',
+                            'second': 'MMM DD, YYYY',
+                            'minute': 'MMM DD, YYYY',
+                            'hour': 'MMM DD, YYYY',
+                            'day': 'MMM DD, YYYY',
+                            'week': 'MMM DD, YYYY',
+                            'month': 'MMM DD, YYYY',
+                            'quarter': 'MMM DD, YYYY',
+                            'year': 'MMM DD, YYYY',
+                        }
+                    }
+                }]
+            },
+        }
+    });
+}
+// RENDERING CHART ENDS
+
+
+// PLAY AGAIN BEGINS
+bitApp.newGame = function () {
+    $('.newGame').on('click', function() {
+        location.reload();
+    });
+}
+// PLAY AGAIN ENDS
 
 bitApp.init = function () {
     bitApp.events();
-    bitApp.purchasedBTC();
     bitApp.epochGraph();
-    bitApp.draw();
     bitApp.coinRotation();
+    bitApp.buildMatrix();
+    bitApp.newGame();
 };
 
 $(function () {
