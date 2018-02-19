@@ -44,7 +44,6 @@ bitApp.buyBTC = (date, originalArray) => {
         if (originalArray === BTCPricesHistory.length){
            bitApp.startDateData = BTCPricesHistory.filter(BTCPrice => BTCPrice.BTC.date === bitApp.startEpoch)[0];
            bitApp.getNumBitCoins();
-        //    undefined????
         }
     });
 };
