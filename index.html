@@ -19,37 +19,61 @@
     <title>Document</title>
 </head>
 <body>
-
-    <canvas id="canvas"></canvas>
-
-<!-- dynamically add this to html with javascript? More semantic? -->
-
-    <div class="rotating-item-wrapper">
-        <img class="rotating-item" src="assets/Untitled-1.png"/>
-        <img class="rotating-item" src="assets/Untitled-2.png"/>
-        <img class="rotating-item" src="assets/Untitled-3.png"/>
-        <img class="rotating-item" src="assets/Untitled-4.png"/>
-        <img class="rotating-item" src="assets/Untitled-5.png"/>
-        <img class="rotating-item" src="assets/Untitled-6.png"/>
-        <img class="rotating-item" src="assets/Untitled-7.png" />
-        <img class="rotating-item" src="assets/Untitled-8.png" />
-        <img class="rotating-item" src="assets/Untitled-9.png" />
+    <div class="matrixWrapper">
+        <canvas id="matrix"></canvas>
     </div>
 
-    <form action="">
-        <input id="userBuyDate" type="date">
-        <input id="userSellDate" type="date">
-        <input id="userBuyAmount" type="number"> 
-        <input type="submit">
-    </form>
+    <header>
+        <!-- How can I make this more accessible Adding these images here is the only way I could get the animation to work -->
+        <div class="rotating-item-wrapper">
+            <img class="rotating-item" src="assets/Untitled-1.png" alt="frame 1 for ratating coin animation"/>
+            <img class="rotating-item" src="assets/Untitled-2.png" alt="frame 2 for ratating coin animation"/>
+            <img class="rotating-item" src="assets/Untitled-3.png" alt="frame 3 for ratating coin animation"/>
+            <img class="rotating-item" src="assets/Untitled-4.png" alt="frame 4 for ratating coin animation"/>
+            <img class="rotating-item" src="assets/Untitled-5.png" alt="frame 5 for ratating coin animation"/>
+            <img class="rotating-item" src="assets/Untitled-6.png" alt="frame 6 for ratating coin animation"/>
+            <img class="rotating-item" src="assets/Untitled-7.png" alt="frame 7 for ratating coin animation"/>
+            <img class="rotating-item" src="assets/Untitled-8.png" alt="frame 8 for ratating coin animation"/>
+            <img class="rotating-item" src="assets/Untitled-9.png" alt="frame 9 for ratating coin animation"/>
+        </div>
+    </header>
+    
+    <main>
+        <!-- start date nothing before sep 01 2010 -->
+        <div class="wrapper">
+            <form class="form" id="form">
+                <div class="input_wrapper">
+                    <label for="userBuyAmount">How much would you have invested in Bitcoin? (USD)</label>
+                    <input id="userBuyAmount" type="number" required>
+                </div>
+                <div class="input_wrapper">
+                    <label for="userBuyDate">When would you have invested?</label>
+                    <input id="userBuyDate" type="date" min="2010-09-01" max="" required>
+                </div>
+                <div class="input_wrapper">
+                    <label for="userSellDate">What day would you have sold your Bitcoin?</label>
+                    <input id="userSellDate" type="date" min="2010-09-02" max="" required>
+                </div>
+                <input type="submit" form="form">
+            </form>
+        </div>
 
-    <div class="startPrice"></div>
+        <div class="resultsWrapper hidden">
+            <div id="results"></div>
 
-    <canvas id="myChart" width="400" height="400"></canvas>
+            <button class="newGame" type="submit">Toture me again!</button>
+        </div>
 
+        <div class="chartWrapper">
+            <canvas id="chart"></canvas>
+        </div>
+    </main>
+    <footer>
+        <p>A project by <a href="">Aathavan</a> and <a href="">Robyn</a></p>
+    </footer>
     <script src='https://code.jquery.com/jquery-3.2.1.min.js' integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4='
         crossorigin='anonymous'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
-    <script src="scripts/templateScript.js"></script>
+    <script src="scripts/script.js"></script>
 </body>
 </html>
