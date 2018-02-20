@@ -258,11 +258,9 @@ p {
   -ms-flex-align: center;
   align-items: center;
   height: 240px;
-  padding: 30px 0 30px 0;
-  position: relative; }
+  padding: 30px 0 30px 0; }
 
 .rotating_coin {
-  position: absolute;
   top: 0;
   position: relative;
   height: 100%; }
