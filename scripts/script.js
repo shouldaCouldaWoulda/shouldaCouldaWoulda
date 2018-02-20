@@ -5,6 +5,7 @@ bitApp.buildMatrix = function(){
     canvas = document.getElementById("matrix");
     matrix = canvas.getContext("2d");
     //making the canvas full screen
+// THERE HAS TO BE A BETTER WAY TO SIZE THIS AND MAKE IT RESIZE UPON RESIZING THE BROWSER...
     canvas.height = 1.5*window.innerHeight;
     canvas.width = window.innerWidth;
     numbers = "1234567890";
@@ -20,7 +21,6 @@ bitApp.buildMatrix = function(){
         drops[x] = 1;
     // drawing the characters
     bitApp.draw = function () {
-        //grey BG for the canvas
         //translucent BG to show trail
         matrix.fillStyle = "rgba(220,220,220,.05)";
         matrix.fillRect(0, 0, canvas.width, canvas.height);
@@ -54,26 +54,27 @@ bitApp.coinRotation = function () {
     //cross-fade time (in milliseconds)
     let fadeTime = 0;
     //count number of items
-    let numberOfItems = $('.rotating-item').length;
+    let numberOfItems = $('.rotating_coin').length;
     //set current item
     let currentItem = 0;
     //show first item
-    $('.rotating-item').eq(currentItem).fadeIn(initialFadeIn);
+    $('.rotating_coin').eq(currentItem).fadeIn(initialFadeIn);
     //loop through the items
     let infiniteLoop = setInterval(function () {
-        $('.rotating-item').eq(currentItem).fadeOut(fadeTime);
+        $('.rotating_coin').eq(currentItem).fadeOut(fadeTime);
         if (currentItem == numberOfItems - 1) {
             currentItem = 0;
         } else {
             currentItem++;
         }
-        $('.rotating-item').eq(currentItem).fadeIn(fadeTime);
+        $('.rotating_coin').eq(currentItem).fadeIn(fadeTime);
     }, itemInterval);
 }
 // COIN ANIMATION ENDS
 
 
-// SETTING THE DATE INPUT MAX TO CURRENT DAY, AND SELL DATE TO AFTER BUY DATE BEGINS
+// SETTING THE DATE INPUT MAX TO CURRENT DAY
+// HOW DO I SET REQUIREMENT THAT THE SELL DATE BE AFTER THE BUY DATE? JQUERY DATEPICKER?
 let today = new Date();
 let dd = today.getDate();
 let mm = today.getMonth() + 1; //January is 0!
@@ -86,7 +87,7 @@ if (mm < 10) {
 }
 today = yyyy + '-' + mm + '-' + dd;
 document.getElementById("userBuyDate").setAttribute("max", today);
-document.getElementById("userSellDate").setAttribute("min", userBuyDate)
+document.getElementById("userSellDate").setAttribute("max", today);
 // SETTING THE DATE INPUT MAX TO CURRENT DAY, AND SELL DATE TO AFTER BUY DATE ENDS
 
 
@@ -107,7 +108,7 @@ bitApp.epochGraph = function (end, start) {
     return (end - start) / 10;
 };
 
-// getting the starting and ending epoch dates
+// getting the starting and ending epoch dates AND hidding first page for results
 bitApp.events = function () {
     $('form').on('submit', async function (e) {
         e.preventDefault();
@@ -120,6 +121,10 @@ bitApp.events = function () {
         bitApp.epochGraphIncrement = await bitApp.epochGraph(sellDateEpochValue, buyDateEpochValue);
         await bitApp.EpochArray(buyDateEpochValue, sellDateEpochValue);
         bitApp.BTCLoop();
+        $('.form_wrapper').toggleClass('hidden')
+        $('svg').toggleClass('hidden')
+        $('header').addClass('hidden')
+
     });
 
 };
@@ -199,7 +204,7 @@ $('.form').on('submit', function (event) {
 
 // APPENDING FINAL PORTFOLIO VALUE TO THE PAGE
 bitApp.appendResults = function() {
-    $("#results").append(`<p>${bitApp.buyAmount}$ (USD) invested on ${bitApp.buyDateValue} would have been worth ${bitApp.finalPortfolioWorth} on ${bitApp.sellDateValue}`);
+    $("#results").append(`<p>${bitApp.buyAmount}$ (USD) invested on ${bitApp.buyDateValue}</p><p>would have been worth ${bitApp.finalPortfolioWorth}$ (USD) on ${bitApp.sellDateValue}</p>`);
 }
 // APPENDING FIMAL PORTFOLIO VALUE TO THE PAGE
 
@@ -245,7 +250,7 @@ bitApp.renderChart = function () {
 
 // PLAY AGAIN BEGINS
 bitApp.newGame = function () {
-    $('.newGame').on('click', function() {
+    $('.new_game').on('click', function() {
         location.reload();
     });
 }

@@ -5,72 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="styles/style.css">
-    
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:400,700i" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-    <!-- google fonts -->
-
-    <!-- <link rel="apple-touch-icon" sizes="180x180" href="favicon_package_v0.16/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon_package_v0.16/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon_package_v0.16/favicon-16x16.png">
-    <link rel="manifest" href="favicon_package_v0.16/site.webmanifest">
-    <link rel="mask-icon" href="favicon_package_v0.16/safari-pinned-tab.svg" color="#5bbad5"> -->
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
-    <title>Document</title>
+    <link rel="icon" type="image/png" href="assets/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="assets/favicon-16x16.png" sizes="16x16" />
+    <title>Shoulda-Coulda-Woulda</title>
 </head>
 <body>
-    <div class="matrixWrapper">
+    <div class="matrix_wrapper">
         <canvas id="matrix"></canvas>
     </div>
 
     <header>
         <!-- How can I make this more accessible Adding these images here is the only way I could get the animation to work -->
-        <div class="rotating-item-wrapper">
-            <img class="rotating-item" src="assets/Untitled-1.png" alt="frame 1 for ratating coin animation"/>
-            <img class="rotating-item" src="assets/Untitled-2.png" alt="frame 2 for ratating coin animation"/>
-            <img class="rotating-item" src="assets/Untitled-3.png" alt="frame 3 for ratating coin animation"/>
-            <img class="rotating-item" src="assets/Untitled-4.png" alt="frame 4 for ratating coin animation"/>
-            <img class="rotating-item" src="assets/Untitled-5.png" alt="frame 5 for ratating coin animation"/>
-            <img class="rotating-item" src="assets/Untitled-6.png" alt="frame 6 for ratating coin animation"/>
-            <img class="rotating-item" src="assets/Untitled-7.png" alt="frame 7 for ratating coin animation"/>
-            <img class="rotating-item" src="assets/Untitled-8.png" alt="frame 8 for ratating coin animation"/>
-            <img class="rotating-item" src="assets/Untitled-9.png" alt="frame 9 for ratating coin animation"/>
+        <div class="rotating_coin_wrapper">
+            <img class="rotating_coin" src="assets/Untitled-1.png" alt="frame 1 for ratating coin animation"/>
+            <img class="rotating_coin" src="assets/Untitled-2.png" alt="frame 2 for ratating coin animation"/>
+            <img class="rotating_coin" src="assets/Untitled-3.png" alt="frame 3 for ratating coin animation"/>
+            <img class="rotating_coin" src="assets/Untitled-4.png" alt="frame 4 for ratating coin animation"/>
+            <img class="rotating_coin" src="assets/Untitled-5.png" alt="frame 5 for ratating coin animation"/>
+            <img class="rotating_coin" src="assets/Untitled-6.png" alt="frame 6 for ratating coin animation"/>
+            <img class="rotating_coin" src="assets/Untitled-7.png" alt="frame 7 for ratating coin animation"/>
+            <img class="rotating_coin" src="assets/Untitled-8.png" alt="frame 8 for ratating coin animation"/>
+            <img class="rotating_coin" src="assets/Untitled-9.png" alt="frame 9 for ratating coin animation"/>
         </div>
     </header>
     
     <main>
         <!-- start date nothing before sep 01 2010 -->
-        <div class="wrapper">
+        <div class="form_wrapper">
             <form class="form" id="form">
                 <div class="input_wrapper">
-                    <label for="userBuyAmount">How much would you have invested in Bitcoin? (USD)</label>
+                    <label for="userBuyAmount">How much SHOULD you have invested in bitcoin? (USD)</label>
                     <input id="userBuyAmount" type="number" required>
                 </div>
                 <div class="input_wrapper">
-                    <label for="userBuyDate">When would you have invested?</label>
+                    <label for="userBuyDate">When COULD you have invested?</label>
                     <input id="userBuyDate" type="date" min="2010-09-01" max="" required>
                 </div>
                 <div class="input_wrapper">
-                    <label for="userSellDate">What day would you have sold your Bitcoin?</label>
+                    <label for="userSellDate">What day WOULD you have sold your bitcoin?</label>
                     <input id="userSellDate" type="date" min="2010-09-02" max="" required>
                 </div>
-                <input type="submit" form="form">
+                <button class="submit_answer" type="submit" form="form">Calculate my regret!</button>
             </form>
         </div>
+        <i class="fas fa-angle-double-down"  style="color:#DB9B11"></i>
+        <div class="popup hidden">
+            <div class="results_wrapper hidden">
+                <div id="results"></div>
+                <button class="new_game" type="submit">Toture me again!</button>
+            </div>
 
-        <div class="resultsWrapper hidden">
-            <div id="results"></div>
-
-            <button class="newGame" type="submit">Toture me again!</button>
-        </div>
-
-        <div class="chartWrapper">
-            <canvas id="chart"></canvas>
+            <div class="chart_wrapper">
+                <canvas id="chart"></canvas>
+            </div>
         </div>
     </main>
     <footer>
         <div class="credits">
-            <p>A project by <a href="">Aathavan</a> and <a href="">Robyn</a></p>
+            <p>A project by <a href="https://twitter.com/AathavanBagawan">Aathavan</a> and <a href="https://twitter.com/ResponsiveRobyn">Robyn</a>, using the<a href="https://www.cryptocompare.com/api/"> CryptoCompare API</a></p>
         </div>
     </footer>
     <script src='https://code.jquery.com/jquery-3.2.1.min.js' integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4='
