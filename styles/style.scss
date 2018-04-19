@@ -22,7 +22,7 @@ a {
     text-decoration: none;
     color: #DB9B11;
     transition: all .3s;
-     &:hover {
+     &:hover &:focus {
         text-decoration: underline;
     }
 }
@@ -120,7 +120,7 @@ input {
     color: white;
     font-style: italic;
     margin-top: 30px;
-    &:hover {
+    &:hover &:focus {
         font-size: 1.5rem;
         text-shadow: 3px 3px 1px #DB9B11;
     }

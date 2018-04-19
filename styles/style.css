@@ -48,7 +48,7 @@
   font-size: 1.2rem;
   height: 60px;
   width: 260px; }
-  .new_game:hover {
+  .new_game:hover, .new_game:focus {
     font-size: 1.5rem;
     text-shadow: 3px 3px 1px #DB9B11; }
   .new_game:active {
@@ -222,7 +222,7 @@ a {
   -webkit-transition: all .3s;
   -o-transition: all .3s;
   transition: all .3s; }
-  a:hover {
+  a:hover a:focus {
     text-decoration: underline; }
 
 main {
@@ -343,7 +343,7 @@ input {
   color: white;
   font-style: italic;
   margin-top: 30px; }
-  .submit_answer:hover {
+  .submit_answer:hover .submit_answer:focus {
     font-size: 1.5rem;
     text-shadow: 3px 3px 1px #DB9B11; }
   .submit_answer:active {
@@ -402,7 +402,7 @@ input {
     width: 210px;
     font-size: .9rem;
     margin-top: 10px; }
-    .submit_answer:hover, .new_game:hover {
+    .submit_answer:hover .submit_answer:focus, .new_game:hover .submit_answer:focus, .submit_answer:hover .new_game:focus, .new_game:hover .new_game:focus {
       font-size: 1rem; }
   .svg-inline--fa {
     font-size: 1.5rem;

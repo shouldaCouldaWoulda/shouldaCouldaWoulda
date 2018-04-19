@@ -53,7 +53,7 @@
     font-size: 1.2rem;
     height: 60px;
     width: 260px;
-     &:hover {
+     &:hover, &:focus {
         font-size: 1.5rem;
         text-shadow: 3px 3px 1px #DB9B11;
     }
