@@ -15,25 +15,23 @@ body {
     color: #4D4D4D;    
     font-family: 'Ubuntu', sans-serif;
     position: relative;
-    height: 100%;
+    padding: 40px 20px 40px 20px;
 }
 
 a {
     text-decoration: none;
     color: #DB9B11;
     transition: all .3s;
-     &:hover {
+     &:hover &:focus {
         text-decoration: underline;
     }
 }
 
 main {
-    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    // padding: 0 20px 0 20px;
 }
 
 p {
@@ -44,14 +42,18 @@ p {
 .matrix_wrapper {
     position: absolute;
     z-index: -1;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
 }
 
 .rotating_coin_wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height:240px;
-    padding: 30px 0 30px 0;
+    height:200px;
+    padding: 0 0 30px 0;
 }
 
 // proofing for other browsers:
@@ -69,7 +71,7 @@ p {
 .form_wrapper {
     background-color: rgba(255, 255, 255, .5);
     border-radius: 10px;
-    padding: 20px 20px 40px 20px;    
+    padding: 40px 150px 50px 150px;    
     width: 80vw;
     max-width: 1600px;
 }
@@ -83,8 +85,13 @@ p {
 }
 
 .input_wrapper {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     line-height: 1.3;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
 input {
@@ -92,8 +99,8 @@ input {
     font-family: 'Ubuntu', sans-serif;
     margin: 10px;
     font-style: italic;
-    font-size: 1.2rem;
-    height: 40px;
+    font-size: 1rem;
+    height: 35px;
     color: rgb(200,200,200);
     border: none;
     border-radius: 5px;
@@ -108,13 +115,12 @@ input {
     border: none;
     box-shadow:10px 10px 0px 0 #DB9B11;
     font-size: 1.2rem;
-    margin-bottom: 20px 0 20px 0;
     transition: all .3s;
     font-family: 'Ubuntu', sans-serif;
     color: white;
     font-style: italic;
-    margin-top: 20px;
-    &:hover {
+    margin-top: 30px;
+    &:hover &:focus {
         font-size: 1.5rem;
         text-shadow: 3px 3px 1px #DB9B11;
     }
@@ -126,15 +132,14 @@ input {
 
 .svg-inline--fa {
     font-size: 1.8rem;
-    margin-top: 40px;
+    margin: 30px 0 30px 0;
 }
 
 .credits {
     text-align: center;
     font-size: 1rem;
-    margin: 30px 0 20px 0;
+    margin-bottom: 30px;
     text-align: center;
-    padding: 0 5vw 0 5vw;
         p {
             padding: 0;
         }

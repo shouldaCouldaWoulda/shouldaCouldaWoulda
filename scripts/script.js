@@ -1,17 +1,17 @@
 let bitApp = {};
 
 // MATRIX BACKGROUND BEGINS
+// matrix background aided by thecodeplayer.com - http://thecodeplayer.com/walkthrough/matrix-rain-animation-html5-canvas-javascript
 bitApp.buildMatrix = function(){
     canvas = document.getElementById("matrix");
-    matrix = canvas.getContext("2d");
+    bitApp.matrix = canvas.getContext("2d");
     //making the canvas full screen
-// THERE HAS TO BE A BETTER WAY TO SIZE THIS AND MAKE IT RESIZE UPON RESIZING THE BROWSER...
-    canvas.height = 1.5*window.innerHeight;
+    canvas.height = document.body.scrollHeight;
     canvas.width = window.innerWidth;
     numbers = "1234567890";
     //converting the string into an array of single characters
     numbers = numbers.split("");
-    font_size = 20;
+    font_size = 19;
     columns = canvas.width / font_size; //number of columns for the rain
     //an array of drops - one per column
     drops = [];
@@ -22,16 +22,16 @@ bitApp.buildMatrix = function(){
     // drawing the characters
     bitApp.draw = function () {
         //translucent BG to show trail
-        matrix.fillStyle = "rgba(220,220,220,.05)";
-        matrix.fillRect(0, 0, canvas.width, canvas.height);
-        matrix.fillStyle = "rgba(255, 255, 255, 1)"; //white text
-        matrix.font = font_size + "px arial";
+        bitApp.matrix.fillStyle = "rgba(220,220,220,.05)";
+        bitApp.matrix.fillRect(0, 0, canvas.width, canvas.height);
+        bitApp.matrix.fillStyle = "rgba(255, 255, 255, 1)"; //white text
+        bitApp.matrix.font = font_size + "px arial";
         //looping over drops
         for (let i = 0; i < drops.length; i++) {
             //a random chinese character to print
             text = numbers[Math.floor(Math.random() * numbers.length)];
             //x = i*font_size, y = value of drops[i]*font_size
-            matrix.fillText(text, i * font_size, drops[i] * font_size);
+            bitApp.matrix.fillText(text, i * font_size, drops[i] * font_size);
             //sending the drop back to the top randomly after it has crossed the screen
             //adding a randomness to the reset to make the drops scattered on the Y axis
             if (drops[i] * font_size > canvas.height && Math.random() > 0.975)
@@ -40,12 +40,14 @@ bitApp.buildMatrix = function(){
             drops[i]++;
         }
     }
-    setInterval(bitApp.draw, 33);
+    // setInterval returns an ivisible id for the interval. So, that's why we have to save the setInterval function is a variable; this lets us referrence this set interval in order to clear it.
+    bitApp.matrixInterval = setInterval(bitApp.draw, 33);
 };
 // MATRIX BACKGROUND ENDS
 
 
 // COIN ANIMATION BEGINS
+// coin images courtesy sunflowerr on shutterstock.com - https://www.shutterstock.com/g/anastasiia%20m
 bitApp.coinRotation = function () {
     //initial fade-in time (in milliseconds)
     let initialFadeIn = 0;
@@ -74,7 +76,6 @@ bitApp.coinRotation = function () {
 
 
 // SETTING THE DATE INPUT MAX TO CURRENT DAY
-// HOW DO I SET REQUIREMENT THAT THE SELL DATE BE AFTER THE BUY DATE? JQUERY DATEPICKER?
 let today = new Date();
 let dd = today.getDate();
 let mm = today.getMonth() + 1; //January is 0!
@@ -88,6 +89,10 @@ if (mm < 10) {
 today = yyyy + '-' + mm + '-' + dd;
 document.getElementById("userBuyDate").setAttribute("max", today);
 document.getElementById("userSellDate").setAttribute("max", today);
+    $('#userBuyDate').on('change', function () {
+        let buyDate = $(this).val();
+        $('#userSellDate').attr('min', buyDate)
+    })
 // SETTING THE DATE INPUT MAX TO CURRENT DAY, AND SELL DATE TO AFTER BUY DATE ENDS
 
 
@@ -202,11 +207,11 @@ $('.form').on('submit', function (event) {
 // MAKING POPUP ENDS
 
 
-// APPENDING FINAL PORTFOLIO VALUE TO THE PAGE
+// APPENDING FINAL PORTFOLIO VALUE TO THE PAGE BEGINS
 bitApp.appendResults = function() {
-    $("#results").append(`<p>${bitApp.buyAmount}$ (USD) invested on ${bitApp.buyDateValue}</p><p>would have been worth ${bitApp.finalPortfolioWorth}$ (USD) on ${bitApp.sellDateValue}</p>`);
+    $("#results").append(`<p>$${bitApp.buyAmount} (USD) invested on ${bitApp.buyDateValue}<br>would have been worth <span>$${bitApp.finalPortfolioWorth}</span> (USD) on ${bitApp.sellDateValue}</p>`);
 }
-// APPENDING FIMAL PORTFOLIO VALUE TO THE PAGE
+// APPENDING FIMAL PORTFOLIO VALUE TO THE PAGE ENDS
 
 
 // RENDERING CHART BEGINS
@@ -262,7 +267,26 @@ bitApp.init = function () {
     bitApp.coinRotation();
     bitApp.buildMatrix();
     bitApp.newGame();
+
+    // the screen has not been resized initially, aso set that state to false
+    let recentlyResized = false;
+    $(window).on('resize', function() {
+        // on first resize, initialize the redrawing of the canvas, then set recently resized to true
+        if (!recentlyResized) {
+            clearInterval(bitApp.matrixInterval);
+            bitApp.buildMatrix();
+            recentlyResized = true;
+            // Is essentially a flag to not redraw the canvas again if within 50 milliseconds
+            setTimeout(function () {
+                recentlyResized = false;
+            }, 50);
+        }
+    })
 };
+
+function debounce(func, wait) {
+    
+}
 
 $(function () {
     bitApp.init();
